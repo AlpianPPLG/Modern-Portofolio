@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Send, Phone, MapPin } from "lucide-react";
 
 const Contact = () => {

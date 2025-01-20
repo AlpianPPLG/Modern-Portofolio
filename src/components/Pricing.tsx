@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Check, CreditCard, Zap, Shield, Clock } from "lucide-react";
 
 const Pricing = () => {

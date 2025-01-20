@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react";
 
 const Footer = () => {
