@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Send, Phone, MapPin } from "lucide-react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,14 +21,21 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    // Reset form after submission
+
+    // Simulasi pengiriman email
+    const emailLink = `mailto:nova07pplg@gmail.com?subject=New Message from ${formData.name}&body=${formData.message}`;
+    window.location.href = emailLink;
+
+    // Tampilkan notifikasi sukses
+    toast.success("Message sent successfully!");
+
+    // Reset form setelah pengiriman
     setFormData({ name: "", email: "", message: "" });
   };
 
   return (
     <section className="py-20 bg-white dark:bg-gray-800">
+      <ToastContainer />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">

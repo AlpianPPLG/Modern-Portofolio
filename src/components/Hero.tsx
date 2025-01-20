@@ -94,7 +94,13 @@ const Hero = () => {
               whileTap={{ scale: 0.95 }}
               className="group flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-yellow-300 px-6 py-3 rounded-full text-black font-medium hover:from-yellow-300 hover:to-yellow-200 transition-all duration-300"
             >
-              <span className="text-lg">Let's talk</span>
+              <a
+                href={`https://wa.me/+6282354877197`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="text-lg">Let's talk</span>
+              </a>
               <svg
                 className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
                 fill="none"

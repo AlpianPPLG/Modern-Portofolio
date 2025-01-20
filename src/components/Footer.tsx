@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Facebook, Twitter, Instagram, Linkedin, Send } from "lucide-react";
+import { Facebook, Github, Instagram, Linkedin, Send } from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -24,25 +24,25 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.facebook.com/Nova%20Pratama.id"
                 className="text-gray-400 hover:text-white transition-colors duration-300"
               >
                 <Facebook size={20} />
               </a>
               <a
-                href="#"
+                href="https://github.com/AlpianPPLG"
                 className="text-gray-400 hover:text-white transition-colors duration-300"
               >
-                <Twitter size={20} />
+                <Github size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/_ubermensch7/?__pwa=1"
                 className="text-gray-400 hover:text-white transition-colors duration-300"
               >
                 <Instagram size={20} />
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/alpian-%E3%85%A4-7a16522bb/"
                 className="text-gray-400 hover:text-white transition-colors duration-300"
               >
                 <Linkedin size={20} />

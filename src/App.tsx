@@ -8,7 +8,7 @@ import Pricing from "./components/Pricing";
 import Features from "./components/Feature";
 import FAQ from "./components/FAQ";
 import Testimony from "./components/Testimony";
-import Contact from "./components/Contac";
+import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
 function App() {

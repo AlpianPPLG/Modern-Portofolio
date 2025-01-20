@@ -10,54 +10,66 @@ const Portfolio = () => {
       category: "Web Development",
       image: "/img/Porto1.png",
       description: "Modern e-commerce platform built with React and Node.js",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: ["ReactJS", "Typescript", "Tailwind Css", "Vite"],
+      demoLink: "https://build-smart.vercel.app/",
+      githubLink: "https://github.com/AlpianPPLG/BuildSmart",
     },
     {
       title: "Travel Booking App",
       category: "Mobile App",
       image: "/img/Porto2.png",
       description: "Cross-platform mobile app for travel bookings",
-      technologies: ["React Native", "Firebase", "Google Maps API"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: ["Html 5", "Tailwind Css", "Css Native", "Javascript"],
+      demoLink: "https://office-website-landing-page.vercel.app",
+      githubLink: "https://github.com/AlpianPPLG/Office-Website-Landing-Page",
     },
     {
       title: "Portfolio Website",
       category: "UI/UX Design",
       image: "/img/Porto3.png",
       description: "Personal portfolio website with modern design",
-      technologies: ["React", "Tailwind CSS", "Framer Motion"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: ["ReactJS", "Tailwind CSS", "Framer Motion", "Vite"],
+      demoLink: "https://modernify.vercel.app",
+      githubLink: "https://github.com/AlpianPPLG/Modernify",
     },
     {
       title: "Portfolio Website",
       category: "UI/UX Design",
       image: "/img/Porto4.png",
       description: "Personal portfolio website with modern design",
-      technologies: ["React", "Tailwind CSS", "Framer Motion"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: ["ReactJS", "Tailwind CSS", "Framer Motion", "Vite"],
+      demoLink: "https://wealth-wise-ebon.vercel.app/",
+      githubLink: "https://github.com/AlpianPPLG/WealthWise",
     },
     {
       title: "Portfolio Website",
       category: "UI/UX Design",
       image: "/img/Porto5.png",
       description: "Personal portfolio website with modern design",
-      technologies: ["React", "Tailwind CSS", "Framer Motion"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: [
+        "Html 5",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Javascript",
+        "Css Native",
+      ],
+      demoLink: "https://organized-wine.vercel.app/",
+      githubLink: "https://github.com/AlpianPPLG/Organized",
     },
     {
       title: "Portfolio Website",
       category: "UI/UX Design",
       image: "/img/Porto6.png",
       description: "Personal portfolio website with modern design",
-      technologies: ["React", "Tailwind CSS", "Framer Motion"],
-      demoLink: "#",
-      githubLink: "#",
+      technologies: [
+        "Html 5",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Javascript",
+        "Css Native",
+      ],
+      demoLink: "https://inspire-hub-jet.vercel.app/",
+      githubLink: "https://github.com/AlpianPPLG/InspireHub",
     },
   ];
 
@@ -153,7 +165,7 @@ const Portfolio = () => {
         {/* View All Projects Button */}
         <div className="mt-16 text-center">
           <a
-            href="#"
+            href="https://github.com/AlpianPPLG"
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300"
           >
             View All Projects
