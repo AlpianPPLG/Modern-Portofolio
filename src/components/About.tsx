@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Code,
   Palette,
@@ -127,7 +126,7 @@ const About = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
+          {skills.map((skill) => (
             <div
               key={skill.name}
               className="group p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transform transition duration-500 hover:-translate-y-2 hover:shadow-2xl"

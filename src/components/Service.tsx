@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Code,
   Smartphone,
@@ -7,9 +6,7 @@ import {
   Rocket,
   Shield,
   MonitorSmartphone,
-  Database,
   Cloud,
-  Settings,
 } from "lucide-react";
 
 const Services = () => {
@@ -94,7 +91,7 @@ const Services = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {services.map((service) => (
             <div
               key={service.title}
               className="group relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
