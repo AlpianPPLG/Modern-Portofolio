@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, MouseEvent } from "react";
 import { Menu, X, ChevronDown, Phone, Sun, Moon, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,6 +26,21 @@ const Navbar = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
+  const handleNavClick = (e: MouseEvent<HTMLElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      const navHeight = 64; // height of navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -40,19 +53,19 @@ const Navbar = () => {
   const navLinks = [
     {
       title: "Services",
-      href: "#",
+      href: "#services",
       dropdownItems: [
-        { title: "Web Development", href: "#" },
-        { title: "Mobile App Development", href: "#" },
-        { title: "UI/UX Design", href: "#" },
+        { title: "Web Development", href: "#services" },
+        { title: "Mobile App Development", href: "#services" },
+        { title: "UI/UX Design", href: "#services" },
       ],
     },
-    { title: "About", href: "#" },
-    { title: "Portfolio", href: "#" },
-    { title: "Pricing", href: "#" },
-    { title: "FAQ", href: "#" },
-    { title: "Testimony", href: "#" },
-    { title: "Contact", href: "#" },
+    { title: "About", href: "#about" },
+    { title: "Portfolio", href: "#portfolio" },
+    { title: "Pricing", href: "#pricing" },
+    { title: "FAQ", href: "#faq" },
+    { title: "Testimony", href: "#testimony" },
+    { title: "Contact", href: "#contact" },
   ];
 
   return (
@@ -66,7 +79,8 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <a
-              href="#"
+              href="#hero"
+              onClick={(e) => handleNavClick(e, "#hero")}
               className="text-black dark:text-white font-bold text-xl"
             >
               ALPIAN<span className="text-blue-300">*</span>
@@ -78,9 +92,13 @@ const Navbar = () => {
             {navLinks.map((link) => (
               <div key={link.title} className="relative group">
                 <button
-                  onClick={() =>
-                    link.dropdownItems && toggleDropdown(link.title)
-                  }
+                  onClick={(e) => {
+                    if (link.dropdownItems) {
+                      toggleDropdown(link.title);
+                    } else {
+                      handleNavClick(e, link.href);
+                    }
+                  }}
                   className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 text-sm font-medium flex items-center"
                 >
                   {link.title}
@@ -103,6 +121,7 @@ const Navbar = () => {
                             <a
                               key={item.title}
                               href={item.href}
+                              onClick={(e) => handleNavClick(e, item.href)}
                               className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
                               {item.title}
@@ -213,9 +232,7 @@ const Navbar = () => {
               {navLinks.map((link) => (
                 <div key={link.title}>
                   <button
-                    onClick={() =>
-                      link.dropdownItems && toggleDropdown(link.title)
-                    }
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="w-full text-left block px-3 py-2 text-base font-medium text-black dark:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
                     {link.title}
@@ -229,6 +246,7 @@ const Navbar = () => {
                         <a
                           key={item.title}
                           href={item.href}
+                          onClick={(e) => handleNavClick(e, item.href)}
                           className="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
                           {item.title}
@@ -239,7 +257,9 @@ const Navbar = () => {
                 </div>
               ))}
               <a
-                href="#contact"
+                href="https://wa.me/+6282354877197"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block px-3 py-2 text-base font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md transition-colors duration-300"
               >
                 Contact Us

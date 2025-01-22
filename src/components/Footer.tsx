@@ -11,6 +11,24 @@ const Footer = () => {
     setEmail("");
   };
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      const navHeight = 64; // height of navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -56,7 +74,8 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#"
+                  href="#hero"
+                  onClick={(e) => handleNavClick(e, "#hero")}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
                   Home
@@ -64,7 +83,8 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#about"
+                  onClick={(e) => handleNavClick(e, "#about")}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
                   About Us
@@ -72,7 +92,8 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#services"
+                  onClick={(e) => handleNavClick(e, "#services")}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
                   Services
@@ -80,7 +101,8 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#portfolio"
+                  onClick={(e) => handleNavClick(e, "#portfolio")}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
                   Portfolio
@@ -88,7 +110,8 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="#contact"
+                  onClick={(e) => handleNavClick(e, "#contact")}
                   className="text-gray-400 hover:text-white transition-colors duration-300"
                 >
                   Contact

@@ -35,7 +35,10 @@ const Hero = () => {
   ];
 
   return (
-    <div className="relative min-h-screen bg-black overflow-hidden pt-20">
+    <div
+      id="hero"
+      className="relative min-h-screen bg-black overflow-hidden pt-20"
+    >
       {/* Background Gradients */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-500 rounded-full filter blur-[120px] animate-pulse" />
