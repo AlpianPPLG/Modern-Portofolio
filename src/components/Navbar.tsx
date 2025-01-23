@@ -1,19 +1,31 @@
-import { useState, useEffect, MouseEvent } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import { Menu, X, ChevronDown, Phone, Sun, Moon, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Define types for our navigation items
+interface NavItem {
+  title: string;
+  href: string;
+  dropdownItems?: {
+    title: string;
+    href: string;
+  }[];
+}
+
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const toggleDropdown = (title: string) => {
+  const toggleDropdown = (e: MouseEvent<HTMLElement>, title: string) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent triggering the parent button's onClick
     setActiveDropdown(activeDropdown === title ? null : title);
   };
 
@@ -26,11 +38,18 @@ const Navbar = () => {
     setIsSearchOpen(!isSearchOpen);
   };
 
-  const handleNavClick = (e: MouseEvent<HTMLElement>, href: string) => {
+  const handleNavClick = (
+    e: MouseEvent<HTMLElement>,
+    href: string,
+    shouldCloseMenu = true
+  ) => {
     e.preventDefault();
+    if (shouldCloseMenu) {
+      setIsOpen(false); // Close mobile menu after navigation
+    }
     const element = document.querySelector(href);
     if (element) {
-      const navHeight = 64; // height of navbar
+      const navHeight = 64;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navHeight;
 
@@ -50,7 +69,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const navLinks: NavItem[] = [
     {
       title: "Services",
       href: "#services",
@@ -91,21 +110,27 @@ const Navbar = () => {
           <div className="hidden md:flex items-center justify-center flex-grow space-x-8">
             {navLinks.map((link) => (
               <div key={link.title} className="relative group">
-                <button
-                  onClick={(e) => {
-                    if (link.dropdownItems) {
-                      toggleDropdown(link.title);
-                    } else {
-                      handleNavClick(e, link.href);
-                    }
-                  }}
-                  className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 text-sm font-medium flex items-center"
-                >
-                  {link.title}
+                <div className="flex items-center space-x-1">
+                  <button
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 text-sm font-medium"
+                  >
+                    {link.title}
+                  </button>
                   {link.dropdownItems && (
-                    <ChevronDown className="ml-1 h-4 w-4" />
+                    <button
+                      onClick={(e) => toggleDropdown(e, link.title)}
+                      className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+                      aria-label={`Toggle ${link.title} dropdown`}
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-200 ${
+                          activeDropdown === link.title ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
                   )}
-                </button>
+                </div>
                 {link.dropdownItems && (
                   <AnimatePresence>
                     {activeDropdown === link.title && (
@@ -231,28 +256,44 @@ const Navbar = () => {
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navLinks.map((link) => (
                 <div key={link.title}>
-                  <button
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className="w-full text-left block px-3 py-2 text-base font-medium text-black dark:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
-                  >
-                    {link.title}
+                  <div className="flex items-center justify-between">
+                    <button
+                      onClick={(e) => handleNavClick(e, link.href, false)}
+                      className="flex-grow text-left px-3 py-2 text-base font-medium text-black dark:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                    >
+                      {link.title}
+                    </button>
                     {link.dropdownItems && (
-                      <ChevronDown className="float-right mt-1 h-4 w-4" />
+                      <button
+                        onClick={(e) => toggleDropdown(e, link.title)}
+                        className="px-3 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-200 ${
+                            activeDropdown === link.title ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
                     )}
-                  </button>
+                  </div>
                   {link.dropdownItems && activeDropdown === link.title && (
-                    <div className="pl-4">
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4"
+                    >
                       {link.dropdownItems.map((item) => (
                         <a
                           key={item.title}
                           href={item.href}
-                          onClick={(e) => handleNavClick(e, item.href)}
+                          onClick={(e) => handleNavClick(e, item.href, false)}
                           className="block px-3 py-2 text-sm text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
                         >
                           {item.title}
                         </a>
                       ))}
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               ))}
