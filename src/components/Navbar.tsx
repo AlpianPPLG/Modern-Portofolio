@@ -2,7 +2,7 @@ import { useState, useEffect, type MouseEvent } from "react";
 import { Menu, X, ChevronDown, Phone, Sun, Moon, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Define types for our navigation items
+// Define types for our navigation items and search suggestions
 interface NavItem {
   title: string;
   href: string;
@@ -12,12 +12,46 @@ interface NavItem {
   }[];
 }
 
+interface SearchSuggestion {
+  title: string;
+  href: string;
+}
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchSuggestions, setSearchSuggestions] = useState<
+    SearchSuggestion[]
+  >([]);
+
+  // Define all available sections for search
+  const sections: SearchSuggestion[] = [
+    { title: "Hero Section", href: "#hero" },
+    { title: "Services Section", href: "#services" },
+    { title: "About Section", href: "#about" },
+    { title: "Portfolio Section", href: "#portfolio" },
+    { title: "Pricing Section", href: "#pricing" },
+    { title: "FAQ Section", href: "#faq" },
+    { title: "Testimony Section", href: "#testimony" },
+    { title: "Contact Section", href: "#contact" },
+  ];
+
+  // Update search suggestions when search term changes
+  useEffect(() => {
+    if (searchTerm.trim() === "") {
+      setSearchSuggestions([]);
+      return;
+    }
+
+    const filteredSuggestions = sections.filter((section) =>
+      section.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchSuggestions(filteredSuggestions);
+  }, [searchTerm]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -36,6 +70,21 @@ const Navbar = () => {
 
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
+    setSearchTerm(""); // Clear search term when closing
+    setSearchSuggestions([]); // Clear suggestions when closing
+  };
+  const handleSearchSubmit = (e: MouseEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchSuggestions.length > 0) {
+      handleNavClick(e, searchSuggestions[0].href);
+    }
+  };
+
+  const handleSuggestionClick = (
+    e: MouseEvent<HTMLButtonElement>,
+    href: string
+  ) => {
+    handleNavClick(e, href);
   };
 
   const handleNavClick = (
@@ -233,11 +282,37 @@ const Navbar = () => {
             className="bg-white dark:bg-gray-900 py-4"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div className="relative">
+                <form onSubmit={handleSearchSubmit}>
+                  <input
+                    type="text"
+                    placeholder="Search sections..."
+                    className="w-full px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </form>
+                {searchSuggestions.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute w-full mt-2 py-2 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50"
+                  >
+                    {searchSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion.href}
+                        onClick={(e) =>
+                          handleSuggestionClick(e, suggestion.href)
+                        }
+                        className="w-full px-4 py-2 text-left text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                      >
+                        {suggestion.title}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
             </div>
           </motion.div>
         )}
