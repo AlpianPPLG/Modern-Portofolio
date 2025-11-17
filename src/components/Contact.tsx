@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Phone, MapPin } from "lucide-react";
+import { Send, Phone } from "lucide-react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -123,24 +123,15 @@ const Contact = () => {
           <div className="space-y-8">
             <div>
               <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                Our Office
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 flex items-center">
-                <MapPin className="w-5 h-5 mr-2 text-blue-500" />
-                123 Innovation Street, Tech City, 12345
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
                 Contact Information
               </h3>
               <p className="text-gray-600 dark:text-gray-400 flex items-center mb-2">
                 <Phone className="w-5 h-5 mr-2 text-blue-500" />
-                +1 (555) 123-4567
+                +62 812-5844-194
               </p>
               <p className="text-gray-600 dark:text-gray-400 flex items-center">
                 <Send className="w-5 h-5 mr-2 text-blue-500" />
-                contact@example.com
+                Nova07pplg@gmail.com
               </p>
             </div>
             <div>

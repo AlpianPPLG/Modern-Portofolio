@@ -1,6 +1,9 @@
 import { useState, useEffect, type MouseEvent } from "react";
 import { Menu, X, ChevronDown, Phone, Sun, Moon, Search } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../hooks/useTheme";
+import { useScrollSpy } from "../hooks/useScrollSpy";
+import { useLocation } from "react-router-dom";
 
 // Define types for our navigation items and search suggestions
 interface NavItem {
@@ -17,28 +20,41 @@ interface SearchSuggestion {
   href: string;
 }
 
+// Move sections to module scope so effects don't need to include it as a dependency
+const SECTIONS: SearchSuggestion[] = [
+  { title: "Hero Section", href: "#hero" },
+  { title: "Services Section", href: "#services" },
+  { title: "About Section", href: "#about" },
+  { title: "Portfolio Section", href: "#portfolio" },
+  { title: "Pricing Section", href: "#pricing" },
+  { title: "FAQ Section", href: "#faq" },
+  { title: "Testimony Section", href: "#testimony" },
+  { title: "Contact Section", href: "#contact" },
+];
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const { isDarkMode, toggleTheme } = useTheme();
+  const location = useLocation();
+
+  // Check if we're on resume page or other pages without hero
+  const isResumePage = location.pathname === '/resume';
+  const shouldHaveBackground = isScrolled || isResumePage;
+  const activeSection = useScrollSpy(['hero', 'services', 'about', 'portfolio', 'pricing', 'faq', 'testimony', 'contact']);
+
+  // text classes depend on whether the navbar has a background (scrolled/resume page) or is transparent (over hero)
+  const navTextClasses = shouldHaveBackground ? "text-black dark:text-white" : "text-white";
+  const navHoverClasses = shouldHaveBackground
+    ? "hover:text-gray-700 dark:hover:text-gray-300"
+    : "hover:text-gray-200";
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchSuggestions, setSearchSuggestions] = useState<
     SearchSuggestion[]
   >([]);
 
-  // Define all available sections for search
-  const sections: SearchSuggestion[] = [
-    { title: "Hero Section", href: "#hero" },
-    { title: "Services Section", href: "#services" },
-    { title: "About Section", href: "#about" },
-    { title: "Portfolio Section", href: "#portfolio" },
-    { title: "Pricing Section", href: "#pricing" },
-    { title: "FAQ Section", href: "#faq" },
-    { title: "Testimony Section", href: "#testimony" },
-    { title: "Contact Section", href: "#contact" },
-  ];
 
   // Update search suggestions when search term changes
   useEffect(() => {
@@ -47,7 +63,7 @@ const Navbar = () => {
       return;
     }
 
-    const filteredSuggestions = sections.filter((section) =>
+    const filteredSuggestions = SECTIONS.filter((section) =>
       section.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setSearchSuggestions(filteredSuggestions);
@@ -63,10 +79,6 @@ const Navbar = () => {
     setActiveDropdown(activeDropdown === title ? null : title);
   };
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-  };
 
   const toggleSearch = () => {
     setIsSearchOpen(!isSearchOpen);
@@ -139,20 +151,25 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed w-full top-0 left-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white dark:bg-gray-900 shadow-lg" : "bg-transparent"
+        shouldHaveBackground 
+          ? "bg-white dark:bg-gray-900 shadow-lg" 
+          : "bg-transparent backdrop-blur-sm"
       }`}
+      role="navigation"
+      aria-label="Main navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a
-              href="#hero"
-              onClick={(e) => handleNavClick(e, "#hero")}
-              className="text-black dark:text-white font-bold text-xl"
+            <button
+              type="button"
+              aria-label="Go to top"
+              onClick={(e) => handleNavClick(e as unknown as MouseEvent<HTMLElement>, "#hero")}
+              className={`${navTextClasses} font-bold text-xl ${navHoverClasses}`}
             >
               ALPIAN<span className="text-blue-300">*</span>
-            </a>
+            </button>
           </div>
 
           {/* Desktop Navigation */}
@@ -162,14 +179,18 @@ const Navbar = () => {
                 <div className="flex items-center space-x-1">
                   <button
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300 text-sm font-medium"
+                    className={`transition-colors duration-300 text-sm font-medium ${navTextClasses} ${navHoverClasses} ${
+                      activeSection === link.href.slice(1) 
+                        ? 'border-b-2 border-blue-500' 
+                        : ''
+                    }`}
                   >
                     {link.title}
                   </button>
                   {link.dropdownItems && (
                     <button
                       onClick={(e) => toggleDropdown(e, link.title)}
-                      className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+                      className={`transition-colors duration-300 ${navTextClasses} ${navHoverClasses}`}
                       aria-label={`Toggle ${link.title} dropdown`}
                     >
                       <ChevronDown
@@ -214,18 +235,19 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={toggleSearch}
-              className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+              className={`transition-colors duration-300 ${navTextClasses} ${navHoverClasses}`}
             >
               <Search className="h-5 w-5" />
             </button>
             <button
-              onClick={toggleDarkMode}
-              className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+              onClick={toggleTheme}
+              className={`transition-colors duration-300 ${navTextClasses} ${navHoverClasses}`}
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5" />
-              ) : (
                 <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
               )}
             </button>
             <a
@@ -243,23 +265,27 @@ const Navbar = () => {
           <div className="md:hidden flex items-center space-x-4">
             <button
               onClick={toggleSearch}
-              className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+              className={`transition-colors duration-300 ${navTextClasses} ${navHoverClasses}`}
+              aria-label="Search"
             >
               <Search className="h-5 w-5" />
             </button>
             <button
-              onClick={toggleDarkMode}
-              className="text-black dark:text-white hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-300"
+              onClick={toggleTheme}
+              className={`transition-colors duration-300 ${navTextClasses} ${navHoverClasses}`}
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5" />
-              ) : (
                 <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
               )}
             </button>
             <button
               onClick={toggleMenu}
-              className="text-black dark:text-white focus:outline-none"
+              className={`${navTextClasses} focus:outline-none`}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
             >
               {isOpen ? (
                 <X className="h-6 w-6" />
@@ -334,14 +360,14 @@ const Navbar = () => {
                   <div className="flex items-center justify-between">
                     <button
                       onClick={(e) => handleNavClick(e, link.href, false)}
-                      className="flex-grow text-left px-3 py-2 text-base font-medium text-black dark:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                      className={`flex-grow text-left px-3 py-2 text-base font-medium ${navTextClasses} ${navHoverClasses} rounded-md hover:bg-gray-100 dark:hover:bg-gray-800`}
                     >
                       {link.title}
                     </button>
                     {link.dropdownItems && (
                       <button
                         onClick={(e) => toggleDropdown(e, link.title)}
-                        className="px-3 py-2 text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md"
+                        className={`px-3 py-2 ${navTextClasses} ${navHoverClasses} hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md`}
                       >
                         <ChevronDown
                           className={`h-4 w-4 transition-transform duration-200 ${
@@ -373,7 +399,7 @@ const Navbar = () => {
                 </div>
               ))}
               <a
-                href="https://wa.me/+6282354877197"
+                href="https://wa.me/+628125844194"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block px-3 py-2 text-base font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-md transition-colors duration-300"

@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { motion, useAnimation } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const controls = useAnimation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoaded(true);
@@ -90,34 +93,48 @@ const Hero = () => {
               React. Passionate about UI/UX.
             </motion.p>
 
-            <motion.button
-              variants={fadeInUp}
-              transition={{ delay: 0.6 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-yellow-300 px-6 py-3 rounded-full text-black font-medium hover:from-yellow-300 hover:to-yellow-200 transition-all duration-300"
-            >
-              <a
-                href={`https://wa.me/+6282354877197`}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="flex flex-wrap gap-4">
+              <motion.button
+                variants={fadeInUp}
+                transition={{ delay: 0.6 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="group flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-yellow-300 px-6 py-3 rounded-full text-black font-medium hover:from-yellow-300 hover:to-yellow-200 transition-all duration-300"
               >
-                <span className="text-lg">Let's talk</span>
-              </a>
-              <svg
-                className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                <a
+                  href={`https://wa.me/+6282354877197`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span className="text-lg">Let's talk</span>
+                </a>
+                <svg
+                  className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </motion.button>
+
+              <motion.button
+                variants={fadeInUp}
+                transition={{ delay: 0.7 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/resume')}
+                className="group flex items-center space-x-2 bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full text-white font-medium hover:bg-white/20 transition-all duration-300"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </motion.button>
+                <span className="text-lg">View Resume</span>
+                <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" />
+              </motion.button>
+            </div>
           </motion.div>
 
           {/* Center Section - Image */}

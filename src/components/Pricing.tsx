@@ -1,69 +1,74 @@
-import { useState } from "react";
-import { Check, CreditCard, Zap, Shield, Clock } from "lucide-react";
+import { Check, MessageCircle, Globe, Smartphone, Rocket } from "lucide-react";
 
 const Pricing = () => {
-  const [isAnnual, setIsAnnual] = useState(false);
+  const whatsappNumber = "+6281258441194"; // Format: country code + number without spaces
+  const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}`;
 
   const features = {
-    basic: [
-      "1 User",
-      "5 Projects",
-      "5GB Storage",
-      "Basic Support",
-      "Basic Analytics",
+    landing: [
+      "Landing Page Design",
+      "Responsive Mobile & Desktop",
+      "Up to 5 Sections",
+      "Contact Form Integration",
+      "Basic SEO Optimization",
+      "Fast Loading Speed",
+      "Free 1 Month Support",
     ],
-    pro: [
-      "5 Users",
-      "20 Projects",
-      "20GB Storage",
-      "Priority Support",
-      "Advanced Analytics",
-      "Custom Domain",
-      "API Access",
+    website: [
+      "Multi-Page Website",
+      "Responsive Design",
+      "Up to 10 Pages",
+      "CMS Integration (Optional)",
+      "Advanced SEO",
+      "Contact & Forms",
+      "Performance Optimization",
+      "Free 2 Months Support",
+      "Free Minor Revisions",
     ],
-    enterprise: [
-      "Unlimited Users",
-      "Unlimited Projects",
-      "100GB Storage",
-      "24/7 Support",
-      "Advanced Analytics",
-      "Custom Domain",
-      "API Access",
-      "Custom Integration",
-      "Dedicated Manager",
+    mobileApp: [
+      "Cross-Platform App (iOS & Android)",
+      "Custom UI/UX Design",
+      "API Integration",
+      "Push Notifications",
+      "Database Setup",
+      "App Store Deployment",
+      "Admin Panel (Web)",
+      "Free 3 Months Support",
+      "Free Updates & Bug Fixes",
+      "Source Code Included",
     ],
   };
 
   const plans = [
     {
-      name: "Basic",
-      description: "Perfect for starters and small projects",
-      monthlyPrice: 19,
-      annualPrice: 190,
-      features: features.basic,
-      icon: Clock,
+      name: "Landing Page",
+      description: "Perfect untuk personal branding atau product showcase",
+      price: 1500000, // Rp 1.5 juta
+      features: features.landing,
+      icon: Globe,
       color: "blue",
       popular: false,
+      deliveryTime: "3-5 Hari Kerja",
     },
     {
-      name: "Pro",
-      description: "Ideal for growing businesses",
-      monthlyPrice: 49,
-      annualPrice: 490,
-      features: features.pro,
-      icon: Zap,
+      name: "Company Website",
+      description: "Ideal untuk company profile atau business website",
+      price: 5000000, // Rp 5 juta
+      features: features.website,
+      icon: Rocket,
       color: "purple",
       popular: true,
+      deliveryTime: "1-2 Minggu",
     },
     {
-      name: "Enterprise",
-      description: "For large scale organizations",
-      monthlyPrice: 99,
-      annualPrice: 990,
-      features: features.enterprise,
-      icon: Shield,
+      name: "Mobile App",
+      description: "Solusi lengkap untuk aplikasi mobile bisnis Anda",
+      price: 15000000, // Rp 15 juta
+      features: features.mobileApp,
+      icon: Smartphone,
       color: "indigo",
       popular: false,
+      deliveryTime: "3-4 Minggu",
     },
   ];
 
@@ -73,10 +78,10 @@ const Pricing = () => {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-base text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase">
-            Pricing Plans
+            Paket Layanan
           </h2>
           <p className="mt-2 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl">
-            Choose the right plan for you
+            Pilih Paket yang Sesuai Kebutuhan Anda
           </p>
           <div className="mt-4 relative">
             <div className="absolute inset-0 flex items-center">
@@ -87,45 +92,8 @@ const Pricing = () => {
             </div>
           </div>
           <p className="mt-6 text-xl text-gray-600 dark:text-gray-300">
-            Simple, transparent pricing that grows with you
+            Harga transparan untuk website & aplikasi mobile berkualitas
           </p>
-
-          {/* Billing Toggle */}
-          <div className="mt-8 flex justify-center items-center space-x-4">
-            <span
-              className={`text-sm ${
-                isAnnual
-                  ? "text-gray-500 dark:text-gray-400"
-                  : "text-gray-900 dark:text-white font-semibold"
-              }`}
-            >
-              Monthly
-            </span>
-            <button
-              onClick={() => setIsAnnual(!isAnnual)}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
-                isAnnual ? "bg-blue-600" : "bg-gray-200"
-              }`}
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  isAnnual ? "translate-x-6" : "translate-x-1"
-                }`}
-              />
-            </button>
-            <span
-              className={`text-sm ${
-                isAnnual
-                  ? "text-gray-900 dark:text-white font-semibold"
-                  : "text-gray-500 dark:text-gray-400"
-              }`}
-            >
-              Annual
-              <span className="ml-1.5 inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
-                Save 20%
-              </span>
-            </span>
-          </div>
         </div>
 
         {/* Pricing Cards */}
@@ -140,85 +108,98 @@ const Pricing = () => {
               {plan.popular && (
                 <div className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2">
                   <span className="inline-flex items-center rounded-full bg-gradient-to-r from-blue-600 to-purple-600 px-4 py-1 text-sm font-semibold text-white">
-                    Most Popular
+                    Paling Populer
                   </span>
                 </div>
               )}
 
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {plan.name}
                   </h3>
-                  <p className="mt-2 text-gray-500 dark:text-gray-400">
+                  <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                     {plan.description}
                   </p>
                 </div>
                 <div
-                  className={`p-3 rounded-lg bg-${plan.color}-100 dark:bg-${plan.color}-900/20`}
+                  className={`p-3 rounded-lg ${
+                    plan.color === "blue"
+                      ? "bg-blue-100 dark:bg-blue-900/20"
+                      : plan.color === "purple"
+                      ? "bg-purple-100 dark:bg-purple-900/20"
+                      : "bg-indigo-100 dark:bg-indigo-900/20"
+                  }`}
                 >
                   <plan.icon
-                    className={`w-6 h-6 text-${plan.color}-600 dark:text-${plan.color}-400`}
+                    className={`w-6 h-6 ${
+                      plan.color === "blue"
+                        ? "text-blue-600 dark:text-blue-400"
+                        : plan.color === "purple"
+                        ? "text-purple-600 dark:text-purple-400"
+                        : "text-indigo-600 dark:text-indigo-400"
+                    }`}
                   />
                 </div>
               </div>
 
-              <div className="mt-6">
-                <p className="text-5xl font-bold text-gray-900 dark:text-white">
-                  ${isAnnual ? plan.annualPrice : plan.monthlyPrice}
+              <div className="mb-6">
+                <p className="text-4xl font-bold text-gray-900 dark:text-white">
+                  Rp {plan.price.toLocaleString("id-ID")}
                 </p>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  per {isAnnual ? "year" : "month"}
-                </p>
+                <div className="mt-2 inline-flex items-center rounded-full bg-green-100 dark:bg-green-900/20 px-3 py-1 text-xs font-medium text-green-800 dark:text-green-400">
+                  ⏱️ {plan.deliveryTime}
+                </div>
               </div>
 
-              <ul className="mt-8 space-y-4">
+              <ul className="space-y-3 mb-8">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center">
-                    <Check className="h-5 w-5 text-green-500 mr-3" />
-                    <span className="text-gray-600 dark:text-gray-300">
+                  <li key={feature} className="flex items-start">
+                    <Check className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-sm text-gray-600 dark:text-gray-300">
                       {feature}
                     </span>
                   </li>
                 ))}
               </ul>
 
-              <button
-                className={`mt-8 w-full rounded-lg px-4 py-3 text-center font-semibold text-white transition-all duration-300
-                  ${
-                    plan.popular
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                      : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
-                  }
-                `}
+              <a
+                href={`${whatsappLink}?text=${encodeURIComponent(
+                  `Halo! Saya tertarik dengan paket ${plan.name} (Rp ${plan.price.toLocaleString("id-ID")}). Bisakah kita diskusikan lebih lanjut?`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`block w-full rounded-lg px-4 py-3 text-center font-semibold text-white transition-all duration-300 ${
+                  plan.popular
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl"
+                    : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
+                }`}
               >
                 <div className="flex items-center justify-center">
-                  <CreditCard className="w-5 h-5 mr-2" />
-                  Get Started
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  Konsultasi via WhatsApp
                 </div>
-              </button>
+              </a>
             </div>
           ))}
         </div>
 
-        {/* FAQ Section */}
-        <div className="mt-20 text-center">
-          <p className="text-gray-600 dark:text-gray-300">
-            Have questions? Check out our{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:text-blue-500 font-medium"
-            >
-              FAQ
-            </a>{" "}
-            or{" "}
-            <a
-              href="#"
-              className="text-blue-600 hover:text-blue-500 font-medium"
-            >
-              contact us
-            </a>
+        {/* Contact CTA */}
+        <div className="mt-16 text-center">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
+            Butuh paket custom atau ada pertanyaan?
           </p>
+          <a
+            href={`${whatsappLink}?text=${encodeURIComponent(
+              "Halo! Saya ingin bertanya tentang layanan pembuatan website/aplikasi."
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl"
+          >
+            <MessageCircle className="w-5 h-5 mr-2" />
+            Hubungi Saya di WhatsApp
+          </a>
         </div>
       </div>
     </section>

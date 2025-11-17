@@ -1,78 +1,56 @@
-import { useState } from "react";
-import { ExternalLink, Github, Eye } from "lucide-react";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { projects, categories, techStacks } from "../data/projects";
+import { ProjectCard } from "./ui/ProjectCard";
+import { ProjectModal } from "./ui/ProjectModal";
+import { ProjectFilter } from "./ui/ProjectFilter";
+import type { Project } from "../types";
 
 const Portfolio = () => {
-  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedTechStacks, setSelectedTechStacks] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const portfolioItems = [
-    {
-      title: "E-Commerce Platform",
-      category: "Web Development",
-      image: "/img/Porto1.png",
-      description: "Modern e-commerce platform built with React and Node.js",
-      technologies: ["ReactJS", "Typescript", "Tailwind Css", "Vite"],
-      demoLink: "https://build-smart.vercel.app/",
-      githubLink: "https://github.com/AlpianPPLG/BuildSmart",
-    },
-    {
-      title: "Travel Booking App",
-      category: "Mobile App",
-      image: "/img/Porto2.png",
-      description: "Cross-platform mobile app for travel bookings",
-      technologies: ["Html 5", "Tailwind Css", "Css Native", "Javascript"],
-      demoLink: "https://office-website-landing-page.vercel.app",
-      githubLink: "https://github.com/AlpianPPLG/Office-Website-Landing-Page",
-    },
-    {
-      title: "Portfolio Website",
-      category: "UI/UX Design",
-      image: "/img/Porto3.png",
-      description: "Personal portfolio website with modern design",
-      technologies: ["ReactJS", "Tailwind CSS", "Framer Motion", "Vite"],
-      demoLink: "https://modernify.vercel.app",
-      githubLink: "https://github.com/AlpianPPLG/Modernify",
-    },
-    {
-      title: "Portfolio Website",
-      category: "UI/UX Design",
-      image: "/img/Porto4.png",
-      description: "Personal portfolio website with modern design",
-      technologies: ["ReactJS", "Tailwind CSS", "Framer Motion", "Vite"],
-      demoLink: "https://wealth-wise-ebon.vercel.app/",
-      githubLink: "https://github.com/AlpianPPLG/WealthWise",
-    },
-    {
-      title: "Portfolio Website",
-      category: "UI/UX Design",
-      image: "/img/Porto5.png",
-      description: "Personal portfolio website with modern design",
-      technologies: [
-        "Html 5",
-        "Tailwind CSS",
-        "Framer Motion",
-        "Javascript",
-        "Css Native",
-      ],
-      demoLink: "https://organized-wine.vercel.app/",
-      githubLink: "https://github.com/AlpianPPLG/Organized",
-    },
-    {
-      title: "Portfolio Website",
-      category: "UI/UX Design",
-      image: "/img/Porto6.png",
-      description: "Personal portfolio website with modern design",
-      technologies: [
-        "Html 5",
-        "Tailwind CSS",
-        "Framer Motion",
-        "Javascript",
-        "Css Native",
-      ],
-      demoLink: "https://inspire-hub-jet.vercel.app/",
-      githubLink: "https://github.com/AlpianPPLG/InspireHub",
-    },
-  ];
+  // Handle tech stack filter toggle
+  const handleTechStackChange = (tech: string) => {
+    setSelectedTechStacks((prev) =>
+      prev.includes(tech)
+        ? prev.filter((t) => t !== tech)
+        : [...prev, tech]
+    );
+  };
 
+  // Clear all filters
+  const handleClearFilters = () => {
+    setActiveCategory("All");
+    setSearchTerm("");
+    setSelectedTechStacks([]);
+  };
+
+  // Filter projects based on category, search, and tech stack
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      const matchesCategory =
+        activeCategory === "All" || project.category === activeCategory;
+
+      const matchesSearch =
+        searchTerm === "" ||
+        project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        project.tags.some((tag) =>
+          tag.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+      const matchesTechStack =
+        selectedTechStacks.length === 0 ||
+        selectedTechStacks.every((tech) =>
+          project.techStack?.includes(tech)
+        );
+
+      return matchesCategory && matchesSearch && matchesTechStack;
+    });
+  }, [activeCategory, searchTerm, selectedTechStacks]);
   return (
     <section id="portfolio" className="py-20 bg-white dark:bg-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,86 +71,69 @@ const Portfolio = () => {
             </div>
           </div>
           <p className="mt-6 text-xl text-gray-600 dark:text-gray-300">
-            Showcasing some of my best work and projects
+            Explore my latest work and interactive projects
           </p>
         </div>
 
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {portfolioItems.map((item, index) => (
-            <div
-              key={index}
-              className="group relative bg-white dark:bg-gray-900 rounded-xl shadow-xl overflow-hidden"
-              onMouseEnter={() => setHoveredItem(index)}
-              onMouseLeave={() => setHoveredItem(null)}
-            >
-              {/* Project Image */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
-                />
-                {/* Overlay */}
-                <div
-                  className={`absolute inset-0 bg-gradient-to-b from-transparent to-black/80 transition-opacity duration-300 ${
-                    hoveredItem === index ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <p className="text-sm font-medium text-blue-400 mb-2">
-                      {item.category}
-                    </p>
-                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-sm text-gray-300 mb-4">
-                      {item.description}
-                    </p>
-                    {/* Technology Tags */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {item.technologies.map((tech, techIndex) => (
-                        <span
-                          key={techIndex}
-                          className="px-2 py-1 text-xs font-medium bg-blue-500/20 rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                    {/* Action Buttons */}
-                    <div className="flex space-x-3">
-                      <a
-                        href={item.demoLink}
-                        className="flex items-center px-3 py-1.5 bg-blue-500 hover:bg-blue-600 rounded-lg text-sm font-medium transition duration-300"
-                      >
-                        <Eye className="w-4 h-4 mr-1.5" />
-                        Live Demo
-                      </a>
-                      <a
-                        href={item.githubLink}
-                        className="flex items-center px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition duration-300"
-                      >
-                        <Github className="w-4 h-4 mr-1.5" />
-                        Code
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Filter & Search */}
+        <ProjectFilter
+          categories={categories}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          techStacks={techStacks}
+          selectedTechStacks={selectedTechStacks}
+          onTechStackChange={handleTechStackChange}
+          onClearFilters={handleClearFilters}
+        />
 
-        {/* View All Projects Button */}
-        <div className="mt-16 text-center">
-          <a
-            href="https://github.com/AlpianPPLG"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300"
+        {/* Results count */}
+        <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
+          Showing {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+        </p>
+
+        {/* Portfolio Grid with AnimatePresence for smooth transitions */}
+        <motion.div
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => setSelectedProject(project)}
+              />
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Empty state */}
+        {filteredProjects.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center py-12"
           >
-            View All Projects
-            <ExternalLink className="ml-2 -mr-1 w-5 h-5" />
-          </a>
-        </div>
+            <p className="text-xl text-gray-600 dark:text-gray-400">
+              No projects found matching your criteria
+            </p>
+            <button
+              onClick={handleClearFilters}
+              className="mt-4 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+            >
+              Clear Filters
+            </button>
+          </motion.div>
+        )}
       </div>
+
+      {/* Project Modal */}
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 };

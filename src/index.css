@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Print Styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .print\:hidden {
+    display: none !important;
+  }
+
+  .print\:block {
+    display: block !important;
+  }
+
+  /* Hide unnecessary elements when printing */
+  nav,
+  footer,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure resume section is visible */
+  #resume {
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  /* Optimize spacing for print */
+  .print\:break-inside-avoid {
+    break-inside: avoid;
+  }
+
+  .print\:break-after {
+    break-after: page;
+  }
+
+  /* Remove shadows and borders for cleaner print */
+  .shadow-lg,
+  .shadow-xl,
+  .shadow-md {
+    box-shadow: none !important;
+    border: 1px solid #e5e7eb !important;
+  }
+
+  /* Ensure text is black for print */
+  * {
+    color: black !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  /* Show all timeline items when printing */
+  #resume .print\:block {
+    display: block !important;
+  }
+}

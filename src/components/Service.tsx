@@ -3,13 +3,22 @@ import {
   Smartphone,
   Palette,
   Globe,
-  Rocket,
   Shield,
   MonitorSmartphone,
   Cloud,
+  MessageCircle,
 } from "lucide-react";
 
 const Services = () => {
+  const whatsappNumber = "+6281258441941"; // Format internasional tanpa spasi atau tanda hubung
+
+  const handleWhatsAppConsultation = (serviceName: string) => {
+    const message = encodeURIComponent(
+      `Halo, saya tertarik untuk konsultasi tentang ${serviceName}. Bisakah kita diskusikan lebih lanjut?`
+    );
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+  };
+
   const services = [
     {
       icon: Code,
@@ -139,49 +148,60 @@ const Services = () => {
                 ))}
               </ul>
 
-              {/* Learn More Button */}
+              {/* WhatsApp Consultation Button */}
               <div className="mt-8">
-                <a
-                  href="#"
-                  className={`inline-flex items-center text-sm font-medium bg-gradient-to-r ${service.color} text-white px-4 py-2 rounded-lg transition-transform duration-300 hover:scale-105`}
+                <button
+                  onClick={() => handleWhatsAppConsultation(service.title)}
+                  className={`inline-flex items-center text-sm font-medium bg-gradient-to-r ${service.color} text-white px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg`}
                 >
-                  Learn More
-                  <svg
-                    className="w-4 h-4 ml-2"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5l7 7-7 7"
-                    ></path>
-                  </svg>
-                </a>
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Konsultasi via WhatsApp
+                </button>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 text-center">
-          <div className="inline-flex items-center space-x-4">
-            <a
-              href="#contact"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition duration-300"
-            >
-              Get Started
-              <Rocket className="ml-2 -mr-1 w-5 h-5" />
-            </a>
-            <a
-              href="#portfolio"
-              className="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-300"
-            >
-              View Portfolio
-              <MonitorSmartphone className="ml-2 -mr-1 w-5 h-5" />
-            </a>
+        {/* Bottom CTA with WhatsApp Consultation */}
+        <div className="mt-20">
+          {/* WhatsApp Consultation Banner */}
+          <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl shadow-2xl p-8 mb-8 transform transition-all duration-300 hover:scale-[1.02]">
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white rounded-full mb-4">
+                <MessageCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Butuh Konsultasi Gratis?
+              </h3>
+              <p className="text-green-50 mb-6 max-w-2xl mx-auto">
+                Diskusikan kebutuhan digital Anda dengan kami. Dapatkan solusi terbaik untuk bisnis Anda melalui konsultasi gratis via WhatsApp!
+              </p>
+              <button
+                onClick={() => {
+                  const message = encodeURIComponent(
+                    "Halo, saya ingin berkonsultasi tentang layanan digital yang tersedia. Bisakah kita diskusikan lebih lanjut?"
+                  );
+                  window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+                }}
+                className="inline-flex items-center px-8 py-4 bg-white text-green-600 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Chat via WhatsApp Sekarang
+              </button>
+            </div>
+          </div>
+
+          {/* Other CTAs */}
+          <div className="text-center">
+            <div className="inline-flex items-center space-x-4">
+              <a
+                href="#portfolio"
+                className="inline-flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-base font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-300"
+              >
+                View Portfolio
+                <MonitorSmartphone className="ml-2 -mr-1 w-5 h-5" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
