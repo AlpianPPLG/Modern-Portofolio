@@ -102,7 +102,7 @@ const Hero = () => {
                 className="group flex items-center space-x-2 bg-gradient-to-r from-yellow-400 to-yellow-300 px-6 py-3 rounded-full text-black font-medium hover:from-yellow-300 hover:to-yellow-200 transition-all duration-300"
               >
                 <a
-                  href={`https://wa.me/+6282354877197`}
+                  href={`https://wa.me/+628125844194`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
