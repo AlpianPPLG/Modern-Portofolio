@@ -1,7 +1,7 @@
 import { Check, MessageCircle, Globe, Smartphone, Rocket } from "lucide-react";
 
 const Pricing = () => {
-  const whatsappNumber = "+6281258441194"; // Format: country code + number without spaces
+  const whatsappNumber = "+628125844194"; // Format: country code + number without spaces
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}`;
 
   const features = {

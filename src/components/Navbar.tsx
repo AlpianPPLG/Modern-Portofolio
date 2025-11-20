@@ -251,7 +251,7 @@ const Navbar = () => {
               )}
             </button>
             <a
-              href={`https://wa.me/${encodeURIComponent("+62082354877197")}`}
+              href={`https://wa.me/${encodeURIComponent("+628125844194")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300 flex items-center"

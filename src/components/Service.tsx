@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 const Services = () => {
-  const whatsappNumber = "+6281258441941"; // Format internasional tanpa spasi atau tanda hubung
+  const whatsappNumber = "+628125844194"; // Format internasional tanpa spasi atau tanda hubung
 
   const handleWhatsAppConsultation = (serviceName: string) => {
     const message = encodeURIComponent(

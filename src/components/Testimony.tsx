@@ -98,7 +98,7 @@ const Testimony = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const itemsPerPage = 3;
-  const whatsappNumber = "+6281258441941";
+  const whatsappNumber = "+628125844194";
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) =>

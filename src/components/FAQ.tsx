@@ -98,7 +98,7 @@ const FAQ = () => {
     });
   }, [searchQuery, activeCategory]);
 
-  const whatsappNumber = "+6281258441941";
+  const whatsappNumber = "+628125844194";
 
   return (
     <section id="faq" className="py-20 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">

@@ -1,7 +1,7 @@
 import { Zap, Shield, Code, Palette, Smartphone, HeadphonesIcon, MessageCircle } from "lucide-react";
 
 const Features = () => {
-  const whatsappNumber = "+6281258441194";
+  const whatsappNumber = "+628125844194";
   const whatsappLink = `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, '')}`;
 
   const features = [
