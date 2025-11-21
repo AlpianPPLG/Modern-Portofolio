@@ -198,6 +198,6 @@ export const personalInfo = {
   location: 'Indonesia',
   website: 'https://alpian-porto.vercel.app/',
   github: 'https://github.com/AlpianPPLG',
-  linkedin: 'https://linkedin.com/in/yourprofile',
+  linkedin: 'https://www.linkedin.com/in/alpian-alpian-7a16522bb/',
   summary: 'Passionate frontend developer with expertise in React, TypeScript, and modern web technologies. Committed to creating beautiful, accessible, and performant web applications. Always eager to learn new technologies and best practices.',
 };

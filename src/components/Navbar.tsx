@@ -23,8 +23,8 @@ interface SearchSuggestion {
 // Move sections to module scope so effects don't need to include it as a dependency
 const SECTIONS: SearchSuggestion[] = [
   { title: "Hero Section", href: "#hero" },
-  { title: "Services Section", href: "#services" },
   { title: "About Section", href: "#about" },
+  { title: "Services Section", href: "#services" },
   { title: "Portfolio Section", href: "#portfolio" },
   { title: "Pricing Section", href: "#pricing" },
   { title: "FAQ Section", href: "#faq" },
@@ -42,7 +42,8 @@ const Navbar = () => {
   // Check if we're on resume page or other pages without hero
   const isResumePage = location.pathname === '/resume';
   const shouldHaveBackground = isScrolled || isResumePage;
-  const activeSection = useScrollSpy(['hero', 'services', 'about', 'portfolio', 'pricing', 'faq', 'testimony', 'contact']);
+  // Update scroll spy order to match the navbar order (About before Services)
+  const activeSection = useScrollSpy(['hero', 'about', 'services', 'portfolio', 'pricing', 'faq', 'testimony', 'contact']);
 
   // text classes depend on whether the navbar has a background (scrolled/resume page) or is transparent (over hero)
   const navTextClasses = shouldHaveBackground ? "text-black dark:text-white" : "text-white";
@@ -131,6 +132,7 @@ const Navbar = () => {
   }, []);
 
   const navLinks: NavItem[] = [
+    { title: "About", href: "#about" },
     {
       title: "Services",
       href: "#services",
@@ -140,7 +142,6 @@ const Navbar = () => {
         { title: "UI/UX Design", href: "#services" },
       ],
     },
-    { title: "About", href: "#about" },
     { title: "Portfolio", href: "#portfolio" },
     { title: "Pricing", href: "#pricing" },
     { title: "FAQ", href: "#faq" },
